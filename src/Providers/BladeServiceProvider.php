@@ -1,6 +1,6 @@
 <?php
 
-namespace Caffeinated\Modules\Providers;
+namespace Cwfan\Modules\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;

@@ -1,13 +1,14 @@
 <?php
 
-namespace Caffeinated\Modules\Console\Commands;
+namespace Cwfan\Modules\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Console\ConfirmableTrait;
-use Caffeinated\Modules\RepositoryManager;
+use Cwfan\Modules\RepositoryManager;
 use Illuminate\Database\Migrations\Migrator;
-use Caffeinated\Modules\Repositories\Repository;
+use Cwfan\Modules\Repositories\Repository;
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -83,7 +84,7 @@ class ModuleMigrateResetCommand extends Command
      * migrated up as. This ensures the database is properly reversed
      * without conflict.
      *
-     * @param \Caffeinated\Modules\Repositories\Repository $repository
+     * @param \Cwfan\Modules\Repositories\Repository $repository
      *
      * @return mixed
      */
@@ -120,20 +121,23 @@ class ModuleMigrateResetCommand extends Command
      */
     protected function runDown($file, $migration)
     {
-        $file     = $this->migrator->getMigrationName($file);
+        /*$file     = $this->migrator->getMigrationName($file);
         $instance = $this->migrator->resolve($file);
 
         $instance->down();
 
-        $this->migrator->getRepository()->delete($migration);
-
+        $this->migrator->getRepository()->delete($migration);*/
+        $this->migrator->rollback([$file]);
         $this->info("Rolledback: ".$file);
     }
-
+    protected function getMigrationClass(string $migrationName): string
+    {
+        return Str::studly(implode('_', array_slice(explode('_', $migrationName), 4)));
+    }
     /**
      * Generate a list of all migration paths, given the arguments/operations supplied.
      *
-     * @param \Caffeinated\Modules\Repositories\Repository $repository
+     * @param \Cwfan\Modules\Repositories\Repository $repository
      *
      * @return array
      */
@@ -152,7 +156,7 @@ class ModuleMigrateResetCommand extends Command
     /**
      * Using the arguments, generate a list of slugs to reset the migrations for.
      *
-     * @param \Caffeinated\Modules\Repositories\Repository $repository
+     * @param \Cwfan\Modules\Repositories\Repository $repository
      *
      * @return \Illuminate\Support\Collection
      */
@@ -174,7 +178,7 @@ class ModuleMigrateResetCommand extends Command
      *
      * We will accept a slug as long as it is not empty and is enalbed (or force is passed).
      *
-     * @param \Caffeinated\Modules\Repositories\Repository $repository
+     * @param \Cwfan\Modules\Repositories\Repository $repository
      *
      * @return bool
      */
@@ -227,13 +231,15 @@ class ModuleMigrateResetCommand extends Command
      * Get migrations path.
      *
      * @param string $slug
-     * @param \Caffeinated\Modules\Repositories\Repository $repository
+     * @param \Cwfan\Modules\Repositories\Repository $repository
      *
      * @return string
      */
     protected function getMigrationPath($slug, Repository $repository)
     {
-        return module_path($slug, 'Database/Migrations', $repository->location);
+        $location = $repository->location;
+        $mapping = config("modules.locations.$location.mapping");
+        return module_path($slug, data_get($mapping,'Database/Migrations', 'Database/Migrations'), $repository->location);
     }
 
     /**

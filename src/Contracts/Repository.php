@@ -1,6 +1,6 @@
 <?php
 
-namespace Caffeinated\Modules\Contracts;
+namespace Cwfan\Modules\Contracts;
 
 interface Repository
 {

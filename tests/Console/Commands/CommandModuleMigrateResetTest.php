@@ -1,8 +1,8 @@
 <?php
 
-namespace Caffeinated\Modules\Tests\Commands\Commands;
+namespace Cwfan\Modules\Tests\Commands\Commands;
 
-use Caffeinated\Modules\Tests\BaseTestCase;
+use Cwfan\Modules\Tests\BaseTestCase;
 
 class CommandModuleMigrateResetTest extends BaseTestCase
 {
@@ -37,6 +37,6 @@ class CommandModuleMigrateResetTest extends BaseTestCase
     {
         $this->finder->deleteDirectory(module_path('migrate-reset'));
 
-        parent::tearDown();
+        //parent::tearDown()();
     }
 }

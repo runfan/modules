@@ -29,26 +29,32 @@ return [
     'locations' => [
         'app' => [
             'driver'    => 'local',
-            'path'      => app_path('Modules'),
-            'namespace' => 'App\\Modules\\',
+            'path'      => base_path('modules'),
+            'namespace' => 'Modules\\',
             'enabled'   => true,
             'provider'  => 'ModuleServiceProvider',
             'manifest'  => 'module.json',
+            'src'       => 'src/',
             'mapping'   => [
-                
+
                 // Here you may configure the class mapping, effectively
                 // customizing your generated default module structure.
-
-                'Config'              => 'Config',
-                'Database/Factories'  => 'Database/Factories',
-                'Database/Migrations' => 'Database/Migrations',
-                'Database/Seeds'      => 'Database/Seeds',
-                'Http/Controllers'    => 'Http/Controllers',
-                'Http/Middleware'     => 'Http/Middleware',
-                'Providers'           => 'Providers',
-                'Resources/Lang'      => 'Resources/Lang',
-                'Resources/Views'     => 'Resources/Views',
-                'Routes'              => 'Routes'
+                'Config'              => 'config',
+                'Database/Factories'  => 'src/Database/Factories',
+                'Database/Migrations' => 'src/Database/Migrations',
+                'Database/Seeds'      => 'src/Database/Seeds',
+                'Http/Controllers'    => 'src/Http/Controllers',
+                'Http/Middleware'     => 'src/Http/Middleware',
+                'Http/Requests'       => 'src/Http/Requests',
+                'Http/Resources'      => 'src/Http/Resources',
+                'Providers'           => 'src/Providers',
+                'Models'              => 'src/Models',
+                'Jobs'                => 'src/Jobs',
+                'Policies'            => 'src/Policies',
+                'Events'              => 'src/Events',
+                'Resources/Lang'      => 'resources/lang',
+                'Resources/Views'     => 'resources/views',
+                'Routes'              => 'routes'
             ],
         ],
     ],
@@ -78,6 +84,6 @@ return [
      */
 
     'drivers' => [
-        'local' => 'Caffeinated\Modules\Repositories\LocalRepository',
+        'local' => 'Cwfan\Modules\Repositories\LocalRepository',
     ],
 ];

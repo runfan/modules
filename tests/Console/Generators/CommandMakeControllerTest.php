@@ -1,8 +1,8 @@
 <?php
 
-namespace Caffeinated\Modules\Tests\Commands\Generators;
+namespace Cwfan\Modules\Tests\Commands\Generators;
 
-use Caffeinated\Modules\Tests\BaseTestCase;
+use Cwfan\Modules\Tests\BaseTestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 
 class CommandMakeControllerTest extends BaseTestCase
@@ -10,12 +10,14 @@ class CommandMakeControllerTest extends BaseTestCase
     use MatchesSnapshots;
 
     protected $finder;
+    protected $src;
 
     public function setUp(): void
     {
         parent::setUp();
 
         $this->finder = $this->app['files'];
+        $this->src = $this->app['config']->get("modules.locations.{$this->default}.src");
 
         $this->artisan('make:module', ['slug' => 'controller', '--quick' => 'quick']);
     }
@@ -35,7 +37,7 @@ class CommandMakeControllerTest extends BaseTestCase
     {
         $this->artisan('make:module:controller', ['slug' => 'controller', 'name' => 'DefaultResourceController', '--resource' => 'resource']);
 
-        $file = $this->finder->get(module_path('controller').'/Http/Controllers/DefaultResourceController.php');
+        $file = $this->finder->get(module_path('controller').$this->src.'/Http/Controllers/DefaultResourceController.php');
 
         $this->assertMatchesSnapshot($file);
     }
@@ -47,7 +49,7 @@ class CommandMakeControllerTest extends BaseTestCase
 
         $this->artisan('make:module:controller', ['slug' => 'controller', 'name' => 'CustomController']);
 
-        $file = $this->finder->get(module_path('controller').'/Http/Controllers/CustomController.php');
+        $file = $this->finder->get(module_path('controller').$this->src.'/Http/Controllers/CustomController.php');
 
         $this->assertMatchesSnapshot($file);
     }
@@ -56,6 +58,6 @@ class CommandMakeControllerTest extends BaseTestCase
     {
         $this->finder->deleteDirectory(module_path('controller'));
 
-        parent::tearDown();
+        //parent::tearDown()();
     }
 }

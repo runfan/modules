@@ -1,6 +1,6 @@
 <?php
 
-namespace Caffeinated\Modules\Tests;
+namespace Cwfan\Modules\Tests;
 
 class MiddlewareTest extends BaseTestCase
 {
@@ -18,7 +18,7 @@ class MiddlewareTest extends BaseTestCase
     /** @test */
     public function it_can_check_if_it_has_invalid_module_with_identify_module_middleware()
     {
-        $this->app['router']->aliasMiddleware('module', \Caffeinated\Modules\Middleware\IdentifyModule::class);
+        $this->app['router']->aliasMiddleware('module', \Cwfan\Modules\Middleware\IdentifyModule::class);
 
         $this->app['router']->group(
             ['middleware' => [\Illuminate\Session\Middleware\StartSession::class, 'module:controller']],
@@ -59,7 +59,7 @@ class MiddlewareTest extends BaseTestCase
     /** @test */
     public function it_can_check_if_it_has_valid_module_with_identify_module_middleware()
     {
-        $this->app['router']->aliasMiddleware('module', \Caffeinated\Modules\Middleware\IdentifyModule::class);
+        $this->app['router']->aliasMiddleware('module', \Cwfan\Modules\Middleware\IdentifyModule::class);
 
         $this->app['router']->group(
             ['middleware' => [\Illuminate\Session\Middleware\StartSession::class, 'module:middleware']],
@@ -87,6 +87,6 @@ class MiddlewareTest extends BaseTestCase
     {
         $this->finder->deleteDirectory(module_path('middleware'));
 
-        parent::tearDown();
+        //parent::tearDown()();
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace Caffeinated\Modules\Console\Generators;
+namespace Cwfan\Modules\Console\Generators;
 
-use Caffeinated\Modules\Console\GeneratorCommand;
+use Cwfan\Modules\Console\GeneratorCommand;
 
 class MakeSeederCommand extends GeneratorCommand
 {
@@ -49,7 +49,9 @@ class MakeSeederCommand extends GeneratorCommand
      */
     protected function getPath($name)
     {
-        return module_path($this->argument('slug'), 'Database/Seeds/'.$name.'.php', $this->option('location'));
+        $location = $this->option('location')?:config('modules.default_location');
+        $mapping = config("modules.locations.$location.mapping");
+        return module_path($this->argument('slug'), data_get($mapping,'Database/Seeds', 'Database/Seeds').'/'.$name.'.php', $location);
     }
 
     /**

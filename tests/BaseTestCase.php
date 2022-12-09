@@ -1,7 +1,9 @@
 <?php
 
-namespace Caffeinated\Modules\Tests;
+namespace Cwfan\Modules\Tests;
 
+use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\File;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
@@ -29,7 +31,7 @@ abstract class BaseTestCase extends OrchestraTestCase
     protected function getPackageProviders($app)
     {
         return [
-            \Caffeinated\Modules\ModulesServiceProvider::class
+            \Cwfan\Modules\ModulesServiceProvider::class
         ];
     }
 
@@ -40,7 +42,7 @@ abstract class BaseTestCase extends OrchestraTestCase
     protected function getPackageAliases($app)
     {
         return [
-            'Module' => \Caffeinated\Modules\Facades\Module::class
+            'Module' => \Cwfan\Modules\Facades\Module::class
         ];
     }
 
@@ -62,7 +64,7 @@ abstract class BaseTestCase extends OrchestraTestCase
             'app' => [
                 'driver'    => 'local',
                 'path'      => base_path('modules'),
-                'namespace' => 'App\\Modules\\',
+                'namespace' => 'Modules\\',
                 'enabled'   => true,
                 'provider'  => 'ModuleServiceProvider',
                 'mapping'   => [],

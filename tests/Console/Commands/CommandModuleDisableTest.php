@@ -1,8 +1,8 @@
 <?php
 
-namespace Caffeinated\Modules\Tests\Commands\Commands;
+namespace Cwfan\Modules\Tests\Commands\Commands;
 
-use Caffeinated\Modules\Tests\BaseTestCase;
+use Cwfan\Modules\Tests\BaseTestCase;
 
 class CommandModuleDisableTest extends BaseTestCase
 {
@@ -51,6 +51,6 @@ class CommandModuleDisableTest extends BaseTestCase
     {
         $this->finder->deleteDirectory(module_path('disable'));
 
-        parent::tearDown();
+        //parent::tearDown()();
     }
 }

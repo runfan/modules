@@ -1,6 +1,6 @@
 <?php
 
-namespace Caffeinated\Modules\Console\Generators;
+namespace Cwfan\Modules\Console\Generators;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
@@ -41,10 +41,13 @@ class MakeMigrationCommand extends Command
             $options['--' . $key] = $value;
         });
 
+        $location = $options['--location']?:config('modules.default_location');
+        $mapping = config("modules.locations.$location.mapping");
+        $modulePath = module_path($arguments['slug'], data_get($mapping,'Database/Migrations', 'Database/Migrations'), $location);
+
         unset($arguments['slug']);
         unset($options['--location']);
 
-        $modulePath = module_path($this->argument('slug'), 'Database/Migrations', $this->option('location'));
         $options['--path'] = str_replace(realpath(base_path()), '', realpath($modulePath));
         $options['--path'] = ltrim($options['--path'], '/');
 

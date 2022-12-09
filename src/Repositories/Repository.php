@@ -1,10 +1,10 @@
 <?php
 
-namespace Caffeinated\Modules\Repositories;
+namespace Cwfan\Modules\Repositories;
 
 use Exception;
 use Illuminate\Support\Str;
-use Caffeinated\Modules\Contracts\Repository as RepositoryContract;
+use Cwfan\Modules\Contracts\Repository as RepositoryContract;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Filesystem\Filesystem;
 
@@ -124,8 +124,7 @@ abstract class Repository implements RepositoryContract
     public function getModulePath($slug)
     {
         $module = Str::studly($slug);
-
-        if (\File::exists($this->getPath()."/{$module}/")) {
+        if (\File::exists($this->getPath(). "/{$module}/")) {
             return $this->getPath()."/{$module}/";
         }
 

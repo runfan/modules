@@ -1,0 +1,22 @@
+{
+  "name": "modules/DummySlug",
+  "type": "library",
+  "description": "The laravel module library.",
+  "autoload": {
+    "psr-4": {
+      "Modules\\DummyName\\": "SrcRoot"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Modules\\DummyName\\Providers\\ModulesServiceProvider"
+      ]
+    }
+  }
+}

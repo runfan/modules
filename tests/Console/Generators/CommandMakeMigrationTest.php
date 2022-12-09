@@ -1,8 +1,8 @@
 <?php
 
-namespace Caffeinated\Modules\Tests\Commands\Generators;
+namespace Cwfan\Modules\Tests\Commands\Generators;
 
-use Caffeinated\Modules\Tests\BaseTestCase;
+use Cwfan\Modules\Tests\BaseTestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 
 class CommandMakeMigrationTest extends BaseTestCase
@@ -89,6 +89,6 @@ class CommandMakeMigrationTest extends BaseTestCase
     {
         $this->finder->deleteDirectory(module_path('migration'));
 
-        parent::tearDown();
+        //parent::tearDown()();
     }
 }

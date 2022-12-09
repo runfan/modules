@@ -1,9 +1,9 @@
 <?php
 
-namespace Caffeinated\Modules\Console\Generators;
+namespace Cwfan\Modules\Console\Generators;
 
 use Illuminate\Support\Str;
-use Caffeinated\Modules\Console\GeneratorCommand;
+use Cwfan\Modules\Console\GeneratorCommand;
 
 class MakeModelCommand extends GeneratorCommand
 {
@@ -15,7 +15,7 @@ class MakeModelCommand extends GeneratorCommand
     protected $signature = 'make:module:model
     	{slug : The slug of the module.}
     	{name : The name of the model class.}
-        {--migration : Create a new migration file for the model.}
+        {--m|migration : Create a new migration file for the model.}
     	{--location= : The modules location to create the module model class in}';
 
     /**

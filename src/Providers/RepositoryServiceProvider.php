@@ -1,6 +1,6 @@
 <?php
 
-namespace Caffeinated\Modules\Providers;
+namespace Cwfan\Modules\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -22,6 +22,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $default = config('modules.default_driver');
         $driver  = config('modules.drivers.'.$default);
 
-        $this->app->bind('Caffeinated\Modules\Contracts\Repository', $driver);
+        $this->app->bind('Cwfan\Modules\Contracts\Repository', $driver);
     }
 }

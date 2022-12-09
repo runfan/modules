@@ -1,5 +1,5 @@
 {
-    "name": "caffeinated/modules",
+    "name": "cwfan/laravel-modules",
     "description": "Laravel Modules",
     "keywords": ["modules", "laravel", "caffeinated"],
     "license": "MIT",
@@ -12,26 +12,25 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^7.2|^8.0",
-        "illuminate/support": "^6.0|^7.0|^8.0"
+        "php": "^8.0.2",
+        "illuminate/support": "^9.33"
     },
     "require-dev": {
-        "mockery/mockery": "^1.0",
-        "phpunit/phpunit": "^7.5|^8.0",
-        "orchestra/testbench": "^4.0",
-        "spatie/phpunit-snapshot-assertions": "^2.0"
+        "phpunit/phpunit": "^9.5",
+        "orchestra/testbench": "7.8.1",
+        "spatie/phpunit-snapshot-assertions": "^4.2"
     },
     "autoload": {
         "files": [
             "src/Support/helpers.php"
         ],
         "psr-4": {
-            "Caffeinated\\Modules\\": "src/"
+            "Cwfan\\Modules\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Caffeinated\\Modules\\Tests\\": "tests"
+            "Cwfan\\Modules\\Tests\\": "tests"
         }
     },
     "suggest": {
@@ -40,10 +39,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Caffeinated\\Modules\\ModulesServiceProvider"
+                "Cwfan\\Modules\\ModulesServiceProvider"
             ],
             "aliases": {
-                "Module": "Caffeinated\\Modules\\Facades\\Module"
+                "Module": "Cwfan\\Modules\\Facades\\Module"
             }
         }
     }

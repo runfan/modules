@@ -1,8 +1,8 @@
 <?php
 
-namespace Caffeinated\Modules\Tests\Commands\Commands;
+namespace Cwfan\Modules\Tests\Commands\Commands;
 
-use Caffeinated\Modules\Tests\BaseTestCase;
+use Cwfan\Modules\Tests\BaseTestCase;
 
 class CommandModuleOptimizeTest extends BaseTestCase
 {
@@ -22,7 +22,7 @@ class CommandModuleOptimizeTest extends BaseTestCase
     {
         $before = file_get_contents(storage_path('app/modules/app.json'));
 
-        $this->assertSame(
+        $this->assertJsonStringEqualsJsonString(
 '{
     "Optimize": {
         "basename": "Optimize",
@@ -53,7 +53,7 @@ class CommandModuleOptimizeTest extends BaseTestCase
 
         $optimized = file_get_contents(storage_path('app/modules/app.json'));
 
-        $this->assertSame(
+        $this->assertJsonStringEqualsJsonString(
 '{
     "Optimize": {
         "basename": "Optimize",
@@ -74,6 +74,6 @@ class CommandModuleOptimizeTest extends BaseTestCase
     {
         $this->finder->deleteDirectory(module_path('optimize'));
 
-        parent::tearDown();
+        //parent::tearDown()();
     }
 }

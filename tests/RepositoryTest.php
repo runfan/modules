@@ -1,7 +1,8 @@
 <?php
 
-namespace Caffeinated\Modules\Tests;
+namespace Cwfan\Modules\Tests;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Collection;
 
 class RepositoryTest extends BaseTestCase
@@ -9,7 +10,7 @@ class RepositoryTest extends BaseTestCase
     protected $finder;
 
     /**
-     * @var \Caffeinated\Modules\Repositories\Repository
+     * @var \Cwfan\Modules\Repositories\Repository
      */
     protected $repository;
 
@@ -124,7 +125,7 @@ class RepositoryTest extends BaseTestCase
         // Quick and fast way to simulate legacy module folder structure
         // https://github.com/caffeinated/modules/pull/224
         rename(realpath(module_path('barbiz')), realpath(module_path()) . '/BarBiz');
-        
+
         file_put_contents(realpath(module_path()) . '/BarBiz/module.json', json_encode(array(
             'name' => 'BarBiz', 'slug' => 'BarBiz', 'version' => '1.0', 'description' => '',
         ), JSON_PRETTY_PRINT));
@@ -171,13 +172,14 @@ class RepositoryTest extends BaseTestCase
     /** @test */
     public function it_can_get_default_modules_namespace()
     {
-        $this->assertSame('App\Modules', $this->repository->getNamespace());
+        $this->assertSame('Modules', $this->repository->getNamespace());
     }
 
     /** @test */
     public function it_can_get_default_modules_path()
     {
-        $this->assertSame(base_path() . '/modules', $this->repository->getPath());
+
+        $this->assertSame(base_path() .DIRECTORY_SEPARATOR. 'modules', $this->repository->getPath());
     }
 
     /** @test */
@@ -197,7 +199,7 @@ class RepositoryTest extends BaseTestCase
         $path = $this->repository->getModulePath('repositorymod1');
 
         $this->assertSame(
-            base_path() . '/modules/Repositorymod1/',
+            base_path() . DIRECTORY_SEPARATOR.'modules/Repositorymod1/',
             $path
         );
     }
@@ -228,7 +230,7 @@ class RepositoryTest extends BaseTestCase
         $this->repository->setPath(base_path('tests/runtime/modules'));
 
         $this->assertSame(
-            base_path() . '/tests/runtime/modules',
+            base_path() . DIRECTORY_SEPARATOR.'tests/runtime/modules',
             $this->repository->getPath()
         );
     }
@@ -278,8 +280,9 @@ class RepositoryTest extends BaseTestCase
     public function it_will_throw_exception_by_invalid_json_manifest_file()
     {
         file_put_contents(realpath(module_path()) . '/Repositorymod1/module.json', 'invalidjsonformat');
-
-        $manifest = $this->repository->getManifest('repositorymod1');
+        $this->assertThrows(function(){
+            $manifest = $this->repository->getManifest('repositorymod1');
+        }, 'Exception', '[repositorymod1] Your JSON manifest file was not properly formatted. Check for formatting issues and try again.');
     }
 
     /**
@@ -288,7 +291,9 @@ class RepositoryTest extends BaseTestCase
      */
     public function it_will_throw_file_not_found_exception_by_unknown_module()
     {
-        $manifest = $this->repository->getManifest('unknown');
+        $this->assertThrows(function() {
+            $manifest = $this->repository->getManifest('unknown');
+        },FileNotFoundException::class);
     }
 
     public function tearDown(): void
@@ -303,6 +308,6 @@ class RepositoryTest extends BaseTestCase
 
         $this->finder->deleteDirectory(module_path() . '/FooBar');
 
-        parent::tearDown();
+        //parent::tearDown()();
     }
 }

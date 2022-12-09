@@ -1,11 +1,11 @@
 <?php
 
-namespace Caffeinated\Modules\Support;
+namespace Cwfan\Modules\Support;
 
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
-use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
@@ -104,7 +104,7 @@ class ServiceProvider extends IlluminateServiceProvider
         if ($nested = trim(str_replace($configPath, '', $directory), DIRECTORY_SEPARATOR)) {
             $nested = str_replace(DIRECTORY_SEPARATOR, '.', $nested).'.';
         }
-        
+
         return $nested;
     }
 }

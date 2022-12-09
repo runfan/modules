@@ -1,6 +1,6 @@
 <?php
 
-namespace Caffeinated\Modules\Traits;
+namespace Cwfan\Modules\Traits;
 
 trait MigrationTrait
 {
@@ -29,6 +29,8 @@ trait MigrationTrait
      */
     protected function getMigrationPath($module)
     {
-        return module_path($module, 'Database/Migrations');
+        $location = $this->option('location')?:config('modules.default_location');
+        $mapping = config("modules.locations.$location.mapping");
+        return module_path($module, data_get($mapping,'Database/Migrations', 'Database/Migrations'), $location);
     }
 }

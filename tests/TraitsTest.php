@@ -1,6 +1,6 @@
 <?php
 
-namespace Caffeinated\Modules\Tests;
+namespace Cwfan\Modules\Tests;
 
 class TraitsTest extends BaseTestCase
 {
@@ -27,7 +27,7 @@ class TraitsTest extends BaseTestCase
 
 class DummyModelWithTraits
 {
-    use \Caffeinated\Modules\Traits\MigrationTrait;
+    use \Cwfan\Modules\Traits\MigrationTrait;
 }
 
 class DummyModelWithoutTraits

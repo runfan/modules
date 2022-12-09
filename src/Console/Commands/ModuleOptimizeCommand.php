@@ -1,6 +1,6 @@
 <?php
 
-namespace Caffeinated\Modules\Console\Commands;
+namespace Cwfan\Modules\Console\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;

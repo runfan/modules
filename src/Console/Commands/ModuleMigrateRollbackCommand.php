@@ -1,13 +1,13 @@
 <?php
 
-namespace Caffeinated\Modules\Console\Commands;
+namespace Cwfan\Modules\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
-use Caffeinated\Modules\RepositoryManager;
+use Cwfan\Modules\RepositoryManager;
 use Illuminate\Database\Migrations\Migrator;
-use Caffeinated\Modules\Traits\MigrationTrait;
-use Caffeinated\Modules\Repositories\Repository;
+use Cwfan\Modules\Traits\MigrationTrait;
+use Cwfan\Modules\Repositories\Repository;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -67,7 +67,7 @@ class ModuleMigrateRollbackCommand extends Command
         }
 
         $this->migrator->setConnection($this->option('database'));
-        
+
         $repository = modules()->location($this->option('location'));
         $paths      = $this->getMigrationPaths($repository);
 
@@ -79,7 +79,7 @@ class ModuleMigrateRollbackCommand extends Command
     /**
      * Get all of the migration paths.
      *
-     * @param \Caffeinated\Modules\Repositories\Repository $repository
+     * @param \Cwfan\Modules\Repositories\Repository $repository
      *
      * @return array
      */
@@ -87,12 +87,14 @@ class ModuleMigrateRollbackCommand extends Command
     {
         $slug  = $this->argument('slug');
         $paths = [];
-
+        $location = $repository->location;
+        $mapping = config("modules.locations.$location.mapping");
+        $file = data_get($mapping,'Database/Migrations', 'Database/Migrations');
         if ($slug) {
-            $paths[] = module_path($slug, 'Database/Migrations', $repository->location);
+            $paths[] = module_path($slug, $file, $repository->location);
         } else {
             foreach ($repository->all() as $module) {
-                $paths[] = module_path($module['slug'], 'Database/Migrations', $repository->location);
+                $paths[] = module_path($module['slug'], $file, $repository->location);
             }
         }
 

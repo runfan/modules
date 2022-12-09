@@ -1,6 +1,6 @@
 <?php
 
-namespace Caffeinated\Modules\Tests;
+namespace Cwfan\Modules\Tests;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Schema;
 class LocationsTest extends BaseTestCase
 {
     /**
-     * @var \Caffeinated\Modules\Repositories\Repository
+     * @var \Cwfan\Modules\Repositories\Repository
      */
     protected $repository;
 
@@ -20,7 +20,7 @@ class LocationsTest extends BaseTestCase
             'app' => [
                 'driver'    => 'local',
                 'path'      => base_path('modules'),
-                'namespace' => 'App\\Modules\\',
+                'namespace' => 'Modules\\',
                 'enabled'   => true
             ],
             'plugins' => [

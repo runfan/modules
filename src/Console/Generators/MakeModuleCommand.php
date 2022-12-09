@@ -1,11 +1,11 @@
 <?php
 
-namespace Caffeinated\Modules\Console\Generators;
+namespace Cwfan\Modules\Console\Generators;
 
 use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Caffeinated\Modules\RepositoryManager;
+use Cwfan\Modules\RepositoryManager;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 class MakeModuleCommand extends Command
@@ -25,7 +25,7 @@ class MakeModuleCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Create a new Caffeinated module and bootstrap it';
+    protected $description = 'Create a new Cwfan module and bootstrap it';
 
     /**
      * The modules instance.
@@ -77,6 +77,7 @@ class MakeModuleCommand extends Command
         $this->container['description'] = 'This is the description for the ' . $this->container['name'] . ' module.';
         $this->container['location']    = $location ?: config('modules.default_location');
         $this->container['provider']    = config("modules.locations.{$this->container['location']}.provider");
+        $this->container['src']    = config("modules.locations.{$this->container['location']}.src");
 
         if ($this->option('quick')) {
             $this->container['basename']  = Str::studly($this->container['slug']);
@@ -157,7 +158,7 @@ class MakeModuleCommand extends Command
         $this->comment('Basename (auto-generated):  ' . $this->container['basename']);
         $this->comment('Namespace (auto-generated): ' . $this->container['namespace']);
 
-        if ($this->confirm('If the provided information is correct, type "yes" to generate.')) {
+        if ($this->confirm('If the provided information is correct, type "yes" to generate.', true)) {
             $this->comment('Thanks! That\'s all we need.');
             $this->comment('Now relax while your module is generated.');
 
@@ -199,25 +200,26 @@ class MakeModuleCommand extends Command
         foreach ($sourceFiles as $file) {
             $contents = $this->replacePlaceholders($file->getContents());
             $subPath = $file->getRelativePathname();
-
+            if(DIRECTORY_SEPARATOR === "\\") {
+                $subPath = str_replace(DIRECTORY_SEPARATOR, '/', $subPath);
+            }
             if (!empty($mapping)) {
                 $subPath = str_replace($search, $replace, $subPath);
             }
 
-            $filePath = $directory . '/' . $subPath;
-            
+            $filePath = $directory . DIRECTORY_SEPARATOR . $subPath;
             // if the file is module.json, replace it with the custom manifest file name
             if ($file->getFilename() === 'module.json' && $manifest) {
                 $filePath = str_replace('module.json', $manifest, $filePath);
             }
-            
+
             // if the file is ModuleServiceProvider.php, replace it with the custom provider file name
             if ($file->getFilename() === 'ModuleServiceProvider.php') {
                 $filePath = str_replace('ModuleServiceProvider', $provider, $filePath);
             }
-            
+
             $dir = dirname($filePath);
-            
+
             if (! $this->files->isDirectory($dir)) {
                 $this->files->makeDirectory($dir, 0755, true);
             }
@@ -230,7 +232,7 @@ class MakeModuleCommand extends Command
     {
         $location = $this->container['location'];
         $mapping  = config("modules.locations.$location.mapping");
-        
+
         $find = [
             'DummyBasename',
             'DummyNamespace',
@@ -240,7 +242,8 @@ class MakeModuleCommand extends Command
             'DummyDescription',
             'DummyLocation',
             'DummyProvider',
-            
+            'SrcRoot',
+
             'ConfigMapping',
             'DatabaseFactoriesMapping',
             'DatabaseMigrationsMapping',
@@ -252,7 +255,7 @@ class MakeModuleCommand extends Command
             'ResourcesViewsMapping',
             'RoutesMapping',
         ];
-        
+
         $replace = [
             $this->container['basename'],
             $this->container['namespace'],
@@ -262,17 +265,18 @@ class MakeModuleCommand extends Command
             $this->container['description'],
             $this->container['location'] ?? config('modules.default_location'),
             $this->container['provider'],
+            $this->container['src'],
 
-            $mapping['Config']              ?? 'Config',
-            $mapping['Database/Factories']  ?? 'Database/Factories',
-            $mapping['Database/Migrations'] ?? 'Database/Migrations',
-            $mapping['Database/Seeds']      ?? 'Database/Seeds',
-            $mapping['Http/Controllers']    ?? 'Http/Controllers',
-            $mapping['Http/Middleware']     ?? 'Http/Middleware',
-            $mapping['Providers']           ?? 'Providers',
-            $mapping['Resources/Lang']      ?? 'Resources/Lang',
-            $mapping['Resources/Views']     ?? 'Resources/Views',
-            $mapping['Routes']              ?? 'Routes'
+            data_get($mapping, 'Config', 'Config'),
+            data_get($mapping, 'Database/Factories', 'Database/Factories'),
+            data_get($mapping, 'Database/Migrations', 'Database/Migrations'),
+            data_get($mapping, 'Database/Seeds', 'Database/Seeds'),
+            data_get($mapping, 'Http/Controllers', 'Http/Controllers'),
+            data_get($mapping, 'Http/Middleware', 'Http/Middleware'),
+            data_get($mapping, 'Providers', 'Providers'),
+            data_get($mapping, 'Resources/Lang', 'Resources/Lang'),
+            data_get($mapping, 'Resources/Views', 'Resources/Views'),
+            data_get($mapping, 'Routes', 'Routes'),
         ];
 
         return str_replace($find, $replace, $contents);

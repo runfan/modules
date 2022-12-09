@@ -1,13 +1,13 @@
 <?php
 
-namespace Caffeinated\Modules\Console\Commands;
+namespace Cwfan\Modules\Console\Commands;
 
 use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
-use Caffeinated\Modules\RepositoryManager;
+use Cwfan\Modules\RepositoryManager;
 use Illuminate\Database\Migrations\Migrator;
-use Caffeinated\Modules\Repositories\Repository;
+use Cwfan\Modules\Repositories\Repository;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -68,7 +68,7 @@ class ModuleMigrateCommand extends Command
     }
 
     /**
-     * @param \Caffeinated\Modules\Repositories\Repository $repository
+     * @param \Cwfan\Modules\Repositories\Repository $repository
      * @return mixed|void
      */
     protected function migrate(Repository $repository)
@@ -134,7 +134,9 @@ class ModuleMigrateCommand extends Command
      */
     protected function getMigrationPath($slug)
     {
-        return module_path($slug, 'Database/Migrations', $this->option('location'));
+        $location = $this->option('location')?:config('modules.default_location');
+        $mapping = config("modules.locations.$location.mapping");
+        return module_path($slug, data_get($mapping,'Database/Migrations', 'Database/Migrations'), $location);
     }
 
     /**

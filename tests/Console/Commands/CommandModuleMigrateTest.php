@@ -1,8 +1,8 @@
 <?php
 
-namespace Caffeinated\Modules\Tests\Commands\Commands;
+namespace Cwfan\Modules\Tests\Commands\Commands;
 
-use Caffeinated\Modules\Tests\BaseTestCase;
+use Cwfan\Modules\Tests\BaseTestCase;
 
 class CommandModuleMigrateTest extends BaseTestCase
 {
@@ -33,6 +33,6 @@ class CommandModuleMigrateTest extends BaseTestCase
     {
         $this->finder->deleteDirectory(module_path('migrate'));
 
-        parent::tearDown();
+        //parent::tearDown()();
     }
 }

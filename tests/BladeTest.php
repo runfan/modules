@@ -1,6 +1,6 @@
 <?php
 
-namespace Caffeinated\Modules\Tests;
+namespace Cwfan\Modules\Tests;
 
 class BladeTest extends BaseTestCase
 {
@@ -48,6 +48,6 @@ class BladeTest extends BaseTestCase
     {
         $this->finder->deleteDirectory(module_path('blade'));
 
-        parent::tearDown();
+        //parent::tearDown();
     }
 }

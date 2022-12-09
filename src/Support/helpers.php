@@ -1,13 +1,14 @@
 <?php
 
-use Caffeinated\Modules\Exceptions\ModuleNotFoundException;
+use Cwfan\Modules\Exceptions\ModuleNotFoundException;
+use Illuminate\Support\Arr;
 
 if (!function_exists('modules')) {
     /**
      * Get modules repository.
      *
      * @param string $location
-     * @return \Caffeinated\Modules\RepositoryManager|\Caffeinated\Modules\Repositories\Repository
+     * @return \Cwfan\Modules\RepositoryManager|\Cwfan\Modules\Repositories\Repository
      */
     function modules($location = null) {
         if ($location) {
@@ -22,18 +23,18 @@ if (!function_exists('module_path')) {
     /**
      * Return the path to the given module file.
      *
-     * @param string $slug
-     * @param string $file
+     * @param  string|null  $slug
+     * @param  string       $file
      *
-     * @param string|null $location
+     * @param  string|null  $location
      * @return string
-     * @throws \Caffeinated\Modules\Exceptions\ModuleNotFoundException
+     * @throws \Cwfan\Modules\Exceptions\ModuleNotFoundException
      */
-    function module_path($slug = null, $file = '', $location = null)
+    function module_path(?string $slug = null, string $file = '', ?string $location = null)
     {
         $location = $location ?: config('modules.default_location');
         $modulesPath = config("modules.locations.$location.path");
-        $mapping = config("modules.locations.$location.mapping");
+        //$mapping = config("modules.locations.$location.mapping");
 
         $filePath = $file ? '/' . ltrim($file, '/') : '';
 
@@ -63,7 +64,7 @@ if (!function_exists('module_class')) {
      * @param string $class
      * @param string $location
      * @return string
-     * @throws \Caffeinated\Modules\Exceptions\ModuleNotFoundException
+     * @throws \Cwfan\Modules\Exceptions\ModuleNotFoundException
      */
     function module_class($slug, $class, $location = null)
     {

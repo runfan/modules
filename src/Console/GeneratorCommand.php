@@ -1,6 +1,6 @@
 <?php
 
-namespace Caffeinated\Modules\Console;
+namespace Cwfan\Modules\Console;
 
 use Illuminate\Console\GeneratorCommand as LaravelGeneratorCommand;
 use Illuminate\Support\Str;
@@ -58,13 +58,17 @@ abstract class GeneratorCommand extends LaravelGeneratorCommand
 
         // take everything after the module name in the given path (ignoring case)
         $key = array_search(strtolower($module['basename']), explode('\\', strtolower($name)));
-
         if ($key === false) {
             $newPath = str_replace('\\', '/', $name);
         } else {
             $newPath = implode('/', array_slice(explode('\\', $name), $key + 1));
         }
-
+        $mapping = config("modules.locations.$location.mapping");
+        if (!empty($mapping)) {
+            $search = array_keys($mapping);
+            $replace = array_values($mapping);
+            $newPath = str_replace($search, $replace, $newPath);
+        }
         return module_path($slug, "$newPath.php", $location);
     }
 }

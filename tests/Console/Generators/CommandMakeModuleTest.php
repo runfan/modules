@@ -1,9 +1,9 @@
 <?php
 
-namespace Caffeinated\Modules\Tests\Commands\Generators;
+namespace Cwfan\Modules\Tests\Commands\Generators;
 
 use Spatie\Snapshots\MatchesSnapshots;
-use Caffeinated\Modules\Tests\BaseTestCase;
+use Cwfan\Modules\Tests\BaseTestCase;
 
 class CommandMakeModuleTest extends BaseTestCase
 {
@@ -63,6 +63,6 @@ class CommandMakeModuleTest extends BaseTestCase
     {
         $this->finder->deleteDirectory(module_path('custom'));
 
-        parent::tearDown();
+        //parent::tearDown()();
     }
 }
