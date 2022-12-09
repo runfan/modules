@@ -17,4 +17,8 @@ class FacadeTest extends BaseTestCase
     {
         $this->assertSame('Cwfan\Modules\Facades\Module', (new \ReflectionClass(Module::class))->getName());
     }
+    protected function tearDown(): void
+    {
+        //parent::tearDown();
+    }
 }

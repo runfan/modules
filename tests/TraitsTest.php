@@ -23,6 +23,10 @@ class TraitsTest extends BaseTestCase
 
         $this->assertFalse(method_exists($without, 'getMigrationPath'));
     }
+    protected function tearDown(): void
+    {
+        //parent::tearDown();
+    }
 }
 
 class DummyModelWithTraits

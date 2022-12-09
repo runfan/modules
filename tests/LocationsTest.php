@@ -53,7 +53,7 @@ class LocationsTest extends BaseTestCase
 
         $this->assertFileExists(base_path('plugins/MyPlugin/module.json'));
 
-        $this->assertFileNotExists(base_path('modules/MyPlugin/module.json'));
+        $this->assertFileDoesNotExist(base_path('modules/MyPlugin/module.json'));
     }
 
     /** @test */
@@ -64,7 +64,6 @@ class LocationsTest extends BaseTestCase
             '--location' => 'plugins',
             '--quick' => true
         ]);
-
         $this->artisan('make:module:migration', [
             'slug' => 'foo-bar',
             'name' => 'create_foo_bar_plugin_table',
@@ -223,5 +222,10 @@ class LocationsTest extends BaseTestCase
 
         $this->artisan('module:migrate:reset'); // no specified location
         $this->assertTrue(Schema::hasTable('baz_biz_plugin'));
+    }
+
+    protected function tearDown(): void
+    {
+        //parent::tearDown();
     }
 }
